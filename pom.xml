@@ -9,6 +9,7 @@
         <module>cloud-eureka-server-7001</module>
         <module>cloud-order-hystrix-dashboard-9001</module>
         <module>cloud-gateway-9527</module>
+        <module>cloud-config-center-3344</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
