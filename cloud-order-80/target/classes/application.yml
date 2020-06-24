@@ -1,0 +1,51 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: cloud-order-service
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    hostname: ${spring.cloud.client.ip-address}
+    instance-id: order80
+  client:
+    serviceUrl:
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/
+
+
+
+logging:
+  level:
+    com.jzy.service.PaymentFeignService: debug
+
+
+
+#  ×××××××××××××
+# 熔断不设置超时时间 默认为1秒  熔断遵循就近原则
+# 无论是否达到熔断时间  只要连接超时 就会进入fallback
+feign:
+# 不开启无法使用 feign的熔断功能  开了与ribbon:ReadTimeout: 5000冲突  可能是feign内置的熔断和添加的熔断配置冲突
+  #  应该是 开启之后 hystrix默认熔断 时间为1s 所以导致直接进入熔断方法
+  hystrix:
+    enabled: true
+#  ×××××××××××××
+
+#设置熔断器默认超时时间
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 15000
+#  client:
+#    config:
+#      default:
+#        ConnectTimeout : 5000
+#        ReadTimeout: 5000
+
+ribbon:
+  ReadTimeout: 5000
+  ConnectTimeout: 5000

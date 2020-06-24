@@ -1,0 +1,43 @@
+server:
+  port: 7001
+
+spring:
+  application:
+    name: eureka-server
+  profiles: eureka1
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    hostname: eureka7001.com
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+        #defaultZone: http://eureka7001.com:7001/eureka/
+        defaultZone: http://eureka7002.com:7002/eureka/
+  #server:
+    #enable-self-preservation: false
+    #eviction-interval-timer-in-ms: 2000
+---
+
+server:
+  port: 7002
+
+spring:
+  application:
+    name: eureka-server
+  profiles: eureka2
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    hostname: eureka7002.com
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://eureka7001.com:7001/eureka/
+#--spring.profiles.active=eureka1

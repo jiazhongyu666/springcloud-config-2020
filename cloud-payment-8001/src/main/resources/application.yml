@@ -1,0 +1,72 @@
+server:
+  port: 8001
+
+spring:
+  application:
+    name: cloud-payment-service
+  profiles: payment1
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/jzy2020
+    username: root
+    password: root
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    hostname: ${spring.cloud.client.ip-address}
+    instance-id: payment8001
+  client:
+    serviceUrl:
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.jzy.entity
+  configuration:
+    map-underscore-to-camel-case: true
+
+---
+
+server:
+  port: 8002
+
+spring:
+  application:
+    name: cloud-payment-service
+  profiles: payment2
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/jzy2020
+    username: root
+    password: root
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    hostname: ${spring.cloud.client.ip-address}
+    instance-id: payment8002
+  client:
+    serviceUrl:
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.jzy.entity
+  configuration:
+    map-underscore-to-camel-case: true
+
+#--spring.profiles.active=payment1
+  #@HystrixCommand(fallbackMethod = "paymentInfo_TimeOutHandler",commandProperties = {
+  #@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds",value = "3000")
+#})
+
+#//服务熔断  默认开启状态
+#@HystrixCommand(fallbackMethod = "paymentCircuitBreaker_fallback",commandProperties = {
+#@HystrixProperty(name = "circuitBreaker.enabled",value = "true"), //是否开启断路器
+#@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold",value = "10"), //请求次数
+#@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds",value = "10000"), //时间窗口期
+#@HystrixProperty(name = "circuitBreaker.errorThresholdPercentage",value = "60"), //失败率
+#})
