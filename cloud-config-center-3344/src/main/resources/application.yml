@@ -8,7 +8,9 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/jiazhongyu666/springcloud-config-2020.git
+          uri: https://github.com/jiazhongyu666/springcloud-config-center.git
+          search-paths:
+            - springcloud-config-center
       label: master
 eureka:
   client:
